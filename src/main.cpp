@@ -3,7 +3,9 @@
 #include "board.h"
 #include "chassis.h"
 #include "config.h"
+#include "icons.h"
 #include "ir_remote.h"
+#include "led_matrix.h"
 #include "motors.h"
 #include "remote_keys.h"
 
@@ -12,6 +14,7 @@ namespace {
 const Motors motors({PIN_MOTOR_LEFT_DIR, PIN_MOTOR_LEFT_PWM, PIN_MOTOR_RIGHT_DIR,
                      PIN_MOTOR_RIGHT_PWM});
 const IrRemote remote;
+const LedMatrix matrix({PIN_MATRIX_SCL, PIN_MATRIX_SDA});
 const Chassis chassis(motors);
 
 void handleKey(uint8_t key) {
@@ -42,6 +45,9 @@ void setup() {
   Serial.begin(SERIAL_BAUD);
   motors.begin();
   remote.begin();
+  matrix.begin();
+
+  matrix.show(icons::SMILE);
 }
 
 void loop() {
