@@ -3,9 +3,9 @@
 #include "board.h"
 #include "chassis.h"
 #include "config.h"
-#include "icons.h"
 #include "ir_remote.h"
 #include "led_matrix.h"
+#include "modes/manual_mode.h"
 #include "motors.h"
 #include "remote_keys.h"
 
@@ -17,24 +17,29 @@ const IrRemote remote;
 const LedMatrix matrix({PIN_MATRIX_SCL, PIN_MATRIX_SDA});
 const Chassis chassis(motors);
 
+ManualMode manualMode(chassis);
+
+Mode* mode = &manualMode;
+
+void switchTo(Mode& next) {
+  mode->exit();
+  chassis.stop();
+
+  mode = &next;
+  mode->enter();
+  matrix.show(mode->icon());
+  Serial.print(F("Mode: "));
+  Serial.println(mode->name());
+}
+
 void handleKey(uint8_t key) {
   switch (key) {
-    case IR_KEY_UP:
-      chassis.drive(Drive::Forward);
-      break;
-    case IR_KEY_DOWN:
-      chassis.drive(Drive::Backward);
-      break;
-    case IR_KEY_LEFT:
-      chassis.drive(Drive::Left);
-      break;
-    case IR_KEY_RIGHT:
-      chassis.drive(Drive::Right);
-      break;
     case IR_KEY_OK:
-      chassis.stop();
+    case IR_KEY_1:
+      switchTo(manualMode);
       break;
     default:
+      mode->onKey(key);
       break;
   }
 }
@@ -47,7 +52,7 @@ void setup() {
   remote.begin();
   matrix.begin();
 
-  matrix.show(icons::SMILE);
+  switchTo(manualMode);
 }
 
 void loop() {
@@ -57,4 +62,6 @@ void loop() {
     Serial.println(key, HEX);
     handleKey(key);
   }
+
+  mode->update();
 }
