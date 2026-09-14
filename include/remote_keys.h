@@ -9,3 +9,4 @@ constexpr uint8_t IR_KEY_LEFT = 0x44;
 constexpr uint8_t IR_KEY_RIGHT = 0x43;
 constexpr uint8_t IR_KEY_OK = 0x40;
 constexpr uint8_t IR_KEY_1 = 0x16;
+constexpr uint8_t IR_KEY_2 = 0x19;

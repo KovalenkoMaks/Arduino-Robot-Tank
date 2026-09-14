@@ -5,6 +5,7 @@
 #include "config.h"
 #include "ir_remote.h"
 #include "led_matrix.h"
+#include "modes/light_follow_mode.h"
 #include "modes/manual_mode.h"
 #include "motors.h"
 #include "remote_keys.h"
@@ -18,6 +19,7 @@ const LedMatrix matrix({PIN_MATRIX_SCL, PIN_MATRIX_SDA});
 const Chassis chassis(motors);
 
 ManualMode manualMode(chassis);
+LightFollowMode lightFollowMode(chassis, {PIN_LIGHT_LEFT, PIN_LIGHT_RIGHT});
 
 Mode* mode = &manualMode;
 
@@ -37,6 +39,9 @@ void handleKey(uint8_t key) {
     case IR_KEY_OK:
     case IR_KEY_1:
       switchTo(manualMode);
+      break;
+    case IR_KEY_2:
+      switchTo(lightFollowMode);
       break;
     default:
       mode->onKey(key);
