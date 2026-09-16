@@ -10,6 +10,7 @@
 #include "modes/manual_mode.h"
 #include "motors.h"
 #include "remote_keys.h"
+#include "sonar.h"
 
 namespace {
 
@@ -17,6 +18,7 @@ const Motors motors({PIN_MOTOR_LEFT_DIR, PIN_MOTOR_LEFT_PWM, PIN_MOTOR_RIGHT_DIR
                      PIN_MOTOR_RIGHT_PWM});
 const IrRemote remote;
 const LedMatrix matrix({PIN_MATRIX_SCL, PIN_MATRIX_SDA});
+const Sonar sonar({PIN_SONAR_TRIG, PIN_SONAR_ECHO});
 Led frontLed(PIN_LED);
 const Chassis chassis(motors);
 
@@ -62,6 +64,7 @@ void setup() {
   motors.begin();
   remote.begin();
   matrix.begin();
+  sonar.begin();
   frontLed.begin();
 
   switchTo(manualMode);
