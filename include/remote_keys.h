@@ -10,4 +10,5 @@ constexpr uint8_t IR_KEY_RIGHT = 0x43;
 constexpr uint8_t IR_KEY_OK = 0x40;
 constexpr uint8_t IR_KEY_1 = 0x16;
 constexpr uint8_t IR_KEY_2 = 0x19;
+constexpr uint8_t IR_KEY_3 = 0x0D;
 constexpr uint8_t IR_KEY_STAR = 0x42;
