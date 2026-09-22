@@ -9,6 +9,7 @@
 #include "modes/light_follow_mode.h"
 #include "modes/manual_mode.h"
 #include "modes/obstacle_avoid_mode.h"
+#include "modes/serial_mode.h"
 #include "motors.h"
 #include "remote_keys.h"
 #include "sonar.h"
@@ -26,6 +27,7 @@ const Chassis chassis(motors);
 ManualMode manualMode(chassis);
 LightFollowMode lightFollowMode(chassis, {PIN_LIGHT_LEFT, PIN_LIGHT_RIGHT});
 ObstacleAvoidMode obstacleAvoidMode(chassis, sonar, frontLed, PIN_SERVO);
+SerialMode serialMode(chassis);
 
 Mode* mode = &manualMode;
 
@@ -52,6 +54,9 @@ void handleKey(uint8_t key) {
       break;
     case IR_KEY_3:
       switchTo(obstacleAvoidMode);
+      break;
+    case IR_KEY_4:
+      switchTo(serialMode);
       break;
     case IR_KEY_STAR:
       frontLed.toggle();
