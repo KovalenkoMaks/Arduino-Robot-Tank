@@ -9,5 +9,7 @@ extern const uint8_t SMILE[LedMatrix::COLUMNS];
 extern const uint8_t LIGHT[LedMatrix::COLUMNS];
 extern const uint8_t SONAR[LedMatrix::COLUMNS];
 extern const uint8_t TEXT_BT[LedMatrix::COLUMNS];
+extern const uint8_t TEXT_MA[LedMatrix::COLUMNS];
+extern const uint8_t TEXT_HI[LedMatrix::COLUMNS];
 
 }  // namespace icons

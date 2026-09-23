@@ -3,6 +3,7 @@
 #include "board.h"
 #include "chassis.h"
 #include "config.h"
+#include "greeting.h"
 #include "ir_remote.h"
 #include "led.h"
 #include "led_matrix.h"
@@ -29,9 +30,12 @@ LightFollowMode lightFollowMode(chassis, {PIN_LIGHT_LEFT, PIN_LIGHT_RIGHT});
 ObstacleAvoidMode obstacleAvoidMode(chassis, sonar, frontLed, PIN_SERVO);
 SerialMode serialMode(chassis);
 
+Greeting greeting(matrix);
+
 Mode* mode = &manualMode;
 
 void switchTo(Mode& next) {
+  greeting.cancel();
   mode->exit();
   chassis.stop();
   frontLed.set(false);
@@ -61,6 +65,10 @@ void handleKey(uint8_t key) {
     case IR_KEY_STAR:
       frontLed.toggle();
       break;
+    case IR_KEY_HASH:
+      chassis.stop();
+      greeting.start();
+      break;
     default:
       mode->onKey(key);
       break;
@@ -87,6 +95,15 @@ void loop() {
     Serial.print(F("IR key: 0x"));
     Serial.println(key, HEX);
     handleKey(key);
+  }
+
+  // The mode is paused while the greeting plays and starts over when it ends.
+  if (greeting.running()) {
+    if (greeting.update()) {
+      mode->enter();
+      matrix.show(mode->icon());
+    }
+    return;
   }
 
   mode->update();

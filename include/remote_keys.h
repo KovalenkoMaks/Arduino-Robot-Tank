@@ -13,3 +13,4 @@ constexpr uint8_t IR_KEY_2 = 0x19;
 constexpr uint8_t IR_KEY_3 = 0x0D;
 constexpr uint8_t IR_KEY_4 = 0x0C;
 constexpr uint8_t IR_KEY_STAR = 0x42;
+constexpr uint8_t IR_KEY_HASH = 0x4A;
